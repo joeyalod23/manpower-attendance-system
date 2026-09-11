@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local runtime
+uploads/
+*.db
+*.sqlite3
+
+# Google credentials & local state (never commit)
+client_secret.json
+token.json
+drive_meta.json
+
+# Local data files (workforce / attendance data)
+MANPOWER HC.xlsx
+*attlog*.dat
+4EBEF100
+AD1EF100
+
+# Standalone recruitment landing page (not part of the Flask app)
+/index.html
+
+# OS
+Thumbs.db
+Desktop.ini
