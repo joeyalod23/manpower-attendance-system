@@ -6,7 +6,7 @@
  *   const API_BASE = "https://script.google.com/macros/s/ABCDEFG/exec";
  */
 
-const API_BASE = "PASTE_APPS_SCRIPT_URL_HERE";
+const API_BASE = "https://script.google.com/macros/s/AKfycbw8hDgEGD9-D4V7O8WzCbu4K3V66NhrvQIsyqcssT0rUspZMFx5DEDwV3OxfcNSbfWLMw/exec";
 
 // ---------------------------------------------------------------------------
 // API layer (GET via query string, POST as JSON in a text/plain body so the
