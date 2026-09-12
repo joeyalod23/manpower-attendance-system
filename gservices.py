@@ -260,7 +260,7 @@ def get_sheet_titles():
     sid = get_spreadsheet_id()
     meta = (
         sheets.spreadsheets()
-        .get(spreadsheetId=sid, fields="sheets(properties(title, sheetId))")
+        .get(spreadsheetId=sid, fields="sheets.properties")
         .execute()
     )
     return [s["properties"]["title"] for s in meta["sheets"]]
@@ -288,7 +288,7 @@ def _sheet_id_for(title):
     sid = get_spreadsheet_id()
     meta = (
         sheets.spreadsheets()
-        .get(spreadsheetId=sid, fields="sheets(properties(title, sheetId))")
+        .get(spreadsheetId=sid, fields="sheets.properties")
         .execute()
     )
     for s in meta["sheets"]:

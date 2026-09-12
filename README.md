@@ -57,21 +57,26 @@ backups are kept in **Google Drive**.
   `Meta`.
 - Drive folders: `MANPOWER System/Attendance Logs`, `MANPOWER System/Backups`.
 
-## Deploy online (Render, free tier)
+## Live web portal (GitHub Pages + Google Apps Script)
 
-The repo includes a `render.yaml`, so you can deploy straight from GitHub:
+A static web portal lives in `site/` and is published with GitHub Pages
+(no server needed). The backend is a Google Apps Script web app that talks
+to the same Google Sheet database.
 
-1. Push this repo to GitHub (already done: `joeyalod23/manpower-attendance-system`).
-2. Sign up at https://render.com (free) and choose **New → Blueprint**,
-   pick the repo — Render reads `render.yaml` and creates the web service.
-3. In the service's **Environment** tab set two variables to the *contents*
-   (JSON) of your local files (needed because credentials are git-ignored):
-   - `GOOGLE_CLIENT_CONFIG` → contents of `client_secret.json`
-   - `GOOGLE_TOKEN_JSON` → contents of `token.json`
-4. Deploy, then open the generated URL.
+1. Push this repo to GitHub (done: `joeyalod23/manpower-attendance-system`).
+   The portal files in `site/` are published from the `gh-pages` branch.
+2. Create an Apps Script project at https://script.google.com, paste the
+   contents of `site/code/Code.gs`, then **Deploy → New deployment →
+   Web app**:
+   - *Execute as:* **Me** (the account that owns the sheet / Drive folders)
+   - *Who has access:* **Anyone**
+3. Copy the deployment URL (ends in `/exec`).
+4. In `site/app.js` set `API_BASE` to that URL, then push an update
+   (`git push origin gh-pages`).
+5. The portal is live at:
+   https://joeyalod23.github.io/manpower-attendance-system
 
-The app works identically online: the Google Sheet is the database and Drive
-stores the attendance logs and backups.
+The portal and the desktop app share the same Google Sheet database.
 
 ## Notes
 
