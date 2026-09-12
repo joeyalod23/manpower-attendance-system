@@ -57,6 +57,22 @@ backups are kept in **Google Drive**.
   `Meta`.
 - Drive folders: `MANPOWER System/Attendance Logs`, `MANPOWER System/Backups`.
 
+## Deploy online (Render, free tier)
+
+The repo includes a `render.yaml`, so you can deploy straight from GitHub:
+
+1. Push this repo to GitHub (already done: `joeyalod23/manpower-attendance-system`).
+2. Sign up at https://render.com (free) and choose **New → Blueprint**,
+   pick the repo — Render reads `render.yaml` and creates the web service.
+3. In the service's **Environment** tab set two variables to the *contents*
+   (JSON) of your local files (needed because credentials are git-ignored):
+   - `GOOGLE_CLIENT_CONFIG` → contents of `client_secret.json`
+   - `GOOGLE_TOKEN_JSON` → contents of `token.json`
+4. Deploy, then open the generated URL.
+
+The app works identically online: the Google Sheet is the database and Drive
+stores the attendance logs and backups.
+
 ## Notes
 
 - `client_secret.json`, `token.json`, `drive_meta.json`, the Excel roster and

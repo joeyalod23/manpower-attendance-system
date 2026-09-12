@@ -45,6 +45,14 @@ _spreadsheet_id = None
 # ---------------------------------------------------------------------------
 # OAuth
 # ---------------------------------------------------------------------------
+def _client_config():
+    env = os.environ.get("GOOGLE_CLIENT_CONFIG")
+    if env:
+        return json.loads(env)
+    with open(CLIENT_SECRET_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
 def run_auth_flow():
     port = int(os.environ.get("GOOGLE_AUTH_PORT", "8080"))
     print("=" * 64)
@@ -60,9 +68,7 @@ def run_auth_flow():
     print("  http://localhost:{0}/".format(port))
     print("to Authorized redirect URIs, then run the app again.")
     print("=" * 64)
-    with open(CLIENT_SECRET_FILE, "r", encoding="utf-8") as f:
-        client_config = json.load(f)
-    flow = InstalledAppFlow.from_client_config(client_config, SCOPES)
+    flow = InstalledAppFlow.from_client_config(_client_config(), SCOPES)
     creds = flow.run_local_server(port=port, open_browser=True)
     return creds
 
@@ -72,15 +78,19 @@ def get_credentials():
     if _credentials is not None:
         return _credentials
     creds = None
-    if os.path.exists(TOKEN_FILE):
+    env_token = os.environ.get("GOOGLE_TOKEN_JSON")
+    if env_token:
+        creds = Credentials.from_authorized_user_info(json.loads(env_token), SCOPES)
+    elif os.path.exists(TOKEN_FILE):
         creds = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
             creds = run_auth_flow()
-        with open(TOKEN_FILE, "w", encoding="utf-8") as f:
-            f.write(creds.to_json())
+        if not os.environ.get("GOOGLE_TOKEN_JSON"):
+            with open(TOKEN_FILE, "w", encoding="utf-8") as f:
+                f.write(creds.to_json())
     _credentials = creds
     return _credentials
 

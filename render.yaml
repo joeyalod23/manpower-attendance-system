@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: manpower-attendance-system
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      # On the cloud instance Google credentials must come from environment
+      # variables (the local client_secret.json / token.json files are not
+      # committed). Paste the contents of client_secret.json and token.json
+      # into these two secret env vars:
+      - key: GOOGLE_CLIENT_CONFIG
+        sync: false
+      - key: GOOGLE_TOKEN_JSON
+        sync: false

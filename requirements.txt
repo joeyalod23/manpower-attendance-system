@@ -3,3 +3,4 @@ openpyxl>=3.1
 google-api-python-client>=2.100
 google-auth-oauthlib>=1.2
 google-auth-httplib2>=0.2
+gunicorn>=21.2
